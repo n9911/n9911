@@ -1,0 +1,13 @@
+{
+  "login": "n9911",
+  "name": "Nori",
+  "world": "Signal Relay",
+  "pagesUrl": "https://n9911.github.io/n9911/",
+  "refreshHours": 6,
+  "palette": {
+    "background": "#071829",
+    "ink": "#e5f7ff",
+    "accent": "#6bdcff",
+    "paper": "#102b42"
+  }
+}

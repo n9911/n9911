@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Fictional JavaScript developer persona · Developer experience, localization and release tooling. Exploring TypeScript."><title>Nori · Signal Relay</title><link rel="stylesheet" href="src/styles/profile.css"><script src="src/scripts/site.js" defer></script></head><body><main><nav class="site-nav"><span class="world-label">Signal Relay</span><a href="https://github.com/n9911">@n9911 ↗</a></nav><p class="freshness" data-freshness>Saved preview · live refresh starts after Pages setup.</p><article><p><img src="src/assets/universe.png" alt="Signal Relay — dragonfly signal courier"></p>
+<h1 id="nori--javascript-developer--developer-experience">Nori · JavaScript Developer · Developer Experience</h1>
+<blockquote>
+<p><strong>Signal Relay</strong> · Turn scattered signals into a clear handoff.</p>
+</blockquote>
+<p><strong>Make the small checks feel like part of the workflow.</strong></p>
+<p><a href="src/assets/launch.zip">Download the runnable mission</a> · <a href="src/launch.html">Launch guide</a> · <a href="#working-stack">Working stack</a> · <a href="#selected-work">Selected work</a></p>
+<h2 id="mission-control">Mission control</h2>
+<p><img src="src/assets/mission.png" alt="Signal Relay — checked synthetic demonstration"></p>
+<p><strong>First launch: locale-check.</strong> A complete source snapshot, synthetic example and assertion script are included. The mission check and <strong>5 existing tests</strong> passed. <a href="src/launch.html">Try the mission</a> · <a href="src/assets/launch.json">Snapshot and checked result</a>.</p>
+<p>I&#39;m Nori. I like the details that decide whether a handoff feels smooth: translation keys that agree, a changelog someone can follow, a product feed that has been checked before it moves on.</p>
+<p>The goal is a shorter path from “something looks wrong” to an actionable explanation. Small developer tools are a good place to make that path visible.</p>
+<h2 id="what-i-focus-on">What I focus on</h2>
+<ul>
+<li><strong>Developer experience.</strong> Checks should fit the task, explain their result and point to the next action.</li>
+<li><strong>Localization workflows.</strong> Key parity and placeholder consistency before the wording review.</li>
+<li><strong>Release readiness.</strong> Readable notes and structured inputs make a handoff easier to review.</li>
+</ul>
+<h2 id="working-stack">Working stack</h2>
+<p><img src="src/assets/stack.png" alt="Current tooling and explicitly planned lab directions"></p>
+<p>The upper panel shows technologies used by the selected tools. The lower row is the next lab track.</p>
+<h2 id="how-i-think-about-the-work">How I think about the work</h2>
+<p><img src="src/assets/workflow.png" alt="A useful check is a short conversation"></p>
+<h2 id="selected-work">Selected work</h2>
+<p>Three existing local tools form this curated collection. Their public project repositories are being prepared.</p>
+<p><img src="src/assets/projects.png" alt="Three selected projects and their purpose"></p>
+<table>
+<thead>
+<tr>
+<th>Project / stack</th>
+<th>Why it belongs here</th>
+<th>Input → output</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Locale Check</strong><br>JavaScript · JSON</td>
+<td>Catch the missing key before reviewing the sentence. Compare JSON keys and translation placeholders across source and translated files.</td>
+<td><strong>In:</strong> Two translation JSON inputs<br><strong>Out:</strong> Key and placeholder findings</td>
+</tr>
+<tr>
+<td><strong>Release Notes</strong><br>JavaScript · Markdown</td>
+<td>Turn a list of changes into a readable handoff. Prepare a changelog from selected local change entries, then edit the text for a reader.</td>
+<td><strong>In:</strong> Version, date + change entries<br><strong>Out:</strong> An editable changelog</td>
+</tr>
+<tr>
+<td><strong>SKU Guard</strong><br>JavaScript · CSV</td>
+<td>Inspect a feed before it becomes someone else&#39;s problem. Check required fields and duplicate SKU values in a product CSV feed.</td>
+<td><strong>In:</strong> CSV + field requirements<br><strong>Out:</strong> A feed validation result</td>
+</tr>
+</tbody></table>
+<h3 id="one-placeholder-worth-keeping-consistent">One placeholder worth keeping consistent</h3>
+<pre><code class="language-json">{
+  &quot;source&quot;: { &quot;cart.total&quot;: &quot;Total: {amount}&quot; },
+  &quot;translation&quot;: { &quot;cart.total&quot;: &quot;Итого: {amount}&quot; }
+}
+</code></pre>
+<p>A synthetic comparison example: the wording changes while the key and placeholder stay aligned.</p>
+<h2 id="code-and-activity">Code and activity</h2>
+<p><img data-live src="src/assets/live/overview.svg" alt="Public repository totals"></p>
+<p><img data-live src="src/assets/live/activity.svg" alt="Public default-branch history, all authors"></p>
+<p><img data-live src="src/assets/live/languages.svg" alt="Public repository language bytes"></p>
+<p><img data-live src="src/assets/live/interactions.svg" alt="Limited public account interactions"></p>
+<p>These charts are rebuilt on a six-hour schedule after GitHub Pages is enabled. The observation time is printed on every chart. Commits are unique default-branch SHAs across all authors and owned public repositories, including forks. Language bytes describe repositories, not personal skill. Public interactions are a limited event feed (up to 300 events / 30 days), not visitor analytics. API and image caches may delay updates.</p>
+<p><a href="src/assets/live/metrics.json">Live data and scope</a> · <a href="https://n9911.github.io/n9911/">Portfolio website</a> · <a href="https://github.com/n9911/n9911/blob/HEAD/src/SETUP.md">Refresh setup</a></p>
+<h2 id="next-lab">Next lab</h2>
+<ol>
+<li><strong>Type the boundary.</strong> Explore TypeScript contracts for inputs and diagnostics.</li>
+<li><strong>Make findings easier to follow.</strong> Add clearer paths from a result to its key, field or row.</li>
+<li><strong>Keep examples close.</strong> Create small fixtures that show an expected result beside its input.</li>
+</ol>
+<h2 id="start-a-conversation">Start a conversation</h2>
+<p>A missing translation key, a confusing diagnostic or a changelog that needs a better shape is a useful starting point for a repository issue.</p>
+<p><a href="https://github.com/n9911/n9911/issues">Open the profile repository&#39;s issues</a> · <a href="https://github.com/n9911?tab=repositories">Browse the repositories</a></p>
+<blockquote>
+<p>🧩 Making the small tools fit together.</p>
+</blockquote>
+<hr>
+<p><sub>Fictional developer persona · AI-illustrated avatar. Curated tools retain original authors, licenses and commit history. Technology icons: Simple Icons.</sub></p>
+<p><a href="src/assets/NOTICE.md">Artwork and data notes</a></p>
+</article><footer class="site-footer"><a href="https://github.com/n9911/n9911">Source repository</a> · Public data refresh schedule: 6 hours.</footer></main></body></html>

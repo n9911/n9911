@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "login": "n9911",
+  "observedAt": "2026-11-04T23:02:49.663Z",
+  "refreshHours": 6,
+  "window": {
+    "since": "2026-10-06T00:00:00.000Z",
+    "until": "2026-11-04T23:02:49.663Z",
+    "timezone": "UTC"
+  },
+  "scope": "Owned public repositories including forks; unique default-branch commits by all authors. Language bytes describe repositories, not skill or authorship. Public events are a limited activity feed, not visitor analytics.",
+  "totals": {
+    "repositories": 1,
+    "forks": 0,
+    "stars": 0,
+    "openIssuesAndPullRequests": 0,
+    "uniqueCommits30d": 2
+  },
+  "repositories": [
+    {
+      "name": "n9911",
+      "url": "https://github.com/n9911/n9911",
+      "fork": false,
+      "defaultBranch": "main"
+    }
+  ],
+  "languages": {},
+  "daily": [
+    {
+      "day": "2026-10-06",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-07",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-08",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-09",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-10",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-11",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-12",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-13",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-14",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-15",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-16",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-17",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-18",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-19",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-20",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-21",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-22",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-23",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-24",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-25",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-26",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-27",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-28",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-29",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-30",
+      "commits": 0
+    },
+    {
+      "day": "2026-10-31",
+      "commits": 0
+    },
+    {
+      "day": "2026-11-01",
+      "commits": 0
+    },
+    {
+      "day": "2026-11-02",
+      "commits": 0
+    },
+    {
+      "day": "2026-11-03",
+      "commits": 0
+    },
+    {
+      "day": "2026-11-04",
+      "commits": 2
+    }
+  ],
+  "publicEvents": {
+    "counts": {},
+    "observed": 0,
+    "feedLimit": 300,
+    "feedLimitReached": false,
+    "maxApiLatencyHours": 6
+  },
+  "sources": [
+    "https://api.github.com/users/n9911/repos?type=owner&sort=full_name&per_page=100&page=1",
+    "https://api.github.com/repos/n9911/n9911/languages",
+    "https://api.github.com/repos/n9911/n9911/commits?sha=main&since=2026-10-06T00:00:00.000Z&until=2026-11-04T23:02:49.663Z&per_page=100&page=1",
+    "https://api.github.com/users/n9911/events/public?per_page=100&page=1"
+  ]
+}

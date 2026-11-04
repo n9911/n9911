@@ -1,0 +1,36 @@
+{
+  "login": "n9911",
+  "world": "Signal Relay",
+  "project": "locale-check",
+  "sourceHead": "ffa9d068c3e8eb451a3f33a9246eaa70940d3c17",
+  "runtime": "Node.js 22+",
+  "start": "node server.mjs",
+  "port": 8835,
+  "demoCheck": "node examples/profile-mission/check.mjs",
+  "existingTests": "passed",
+  "testCount": 5,
+  "demoResult": {
+    "facts": [
+      [
+        "3",
+        "findings"
+      ],
+      [
+        "1",
+        "placeholder mismatch"
+      ],
+      [
+        "1 + 1",
+        "missing / extra key"
+      ]
+    ],
+    "keys": [
+      "station.ready",
+      "help",
+      "extra"
+    ]
+  },
+  "zipBytes": 99325,
+  "zipSha256": "0739F260953C787E483720CACE89ACDED65C3BD6C9EB7E54D1AE7C4FB1F984B0",
+  "attribution": "Original project authors and LICENSE retained. Source download excludes .git; original history remains in the local source repository."
+}

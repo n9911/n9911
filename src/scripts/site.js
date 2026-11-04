@@ -1,0 +1,21 @@
+const status = document.querySelector('[data-freshness]');
+async function showFreshness() {
+  try {
+    const response = await fetch('src/assets/live/metrics.json', { cache: 'no-store' });
+    if (!response.ok) throw new Error('No published snapshot');
+    const data = await response.json();
+    const date = new Date(data.observedAt);
+    const old = Date.now() - date.getTime() > 12 * 3600000;
+    status.textContent = `GitHub data: ${date.toLocaleString()} · ${old ? 'snapshot is over 12 hours old' : 'refresh schedule: every 6 hours'}`;
+    status.dataset.stale = String(old);
+    for (const image of document.querySelectorAll('img[data-live]')) {
+      const url = new URL(image.getAttribute('src'), location.href);
+      url.searchParams.set('snapshot', data.observedAt);
+      image.src = url.href;
+    }
+  } catch {
+    status.textContent = 'Saved snapshot · live refresh starts after GitHub Pages and its workflow are enabled.';
+  }
+}
+showFreshness();
+setInterval(showFreshness, 6 * 3600000);
