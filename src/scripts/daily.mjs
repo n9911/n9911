@@ -26,7 +26,8 @@ export async function refreshDaily(root, { now = new Date(), request = fetch, to
   metrics.refreshHours = 24;
   metrics.automation = {
     kind: 'daily-statistics-snapshot',
-    author: 'github-actions[bot]',
+    author: config.login,
+    committer: 'github-actions[bot]',
     note: 'Repository history includes automated statistics updates; this is not personal contribution scoring.'
   };
   await saveMetrics(root, config, metrics);
