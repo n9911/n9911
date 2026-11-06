@@ -1,12 +1,13 @@
 # Daily automated statistics snapshots
 
-The profile workflow is prepared to save one successful statistics snapshot per
-UTC day. GitHub Actions checks at 00:17, 06:17, 12:17 and 18:17 UTC. Later checks
-retry a failed refresh; they skip collection and the commit after a successful
-snapshot for that day. Manual runs use the same rule.
+The profile workflow refreshes real GitHub statistics and all four SVG charts at
+every successful run. GitHub Actions checks at 00:17, 06:17, 12:17 and 18:17 UTC;
+manual runs refresh too. A successful snapshot earlier on the same UTC day does
+not skip API requests or rendering. Only the additional snapshot commit is skipped.
 
-Each new day produces fresh GitHub API observations, four SVG charts and a
-`src/assets/live/refresh.json` completion marker. Unchanged counters are valid:
+The first successful run of a UTC day writes a
+`src/assets/live/refresh.json` daily-commit marker. Later runs still publish fresh
+API observations and charts. Unchanged counters are valid:
 the new observation time records a real check, not invented activity. Commits
 are labelled `chore(stats): daily snapshot YYYY-MM-DD [automated]`. The author
 is the profile owner, using the GitHub-provided ID-based noreply address; the
@@ -29,13 +30,27 @@ passed only to Git commit metadata, not saved in the public statistics JSON.
 The build job requests `contents: write` for snapshot commits. The deployment job
 requests `pages: write` and `id-token: write`. The ephemeral `GITHUB_TOKEN` is
 provided by Actions; no personal token or local GCM credentials are required.
-The workflow only stages six explicit files under `src/assets/live`, never uses
+The workflow only stages six explicit files under `src/assets/live` and `README.md`, never uses
 force push and does not rewrite history. GitHub branch rules or restricted
 permissions may reject the push; the job reports that failure.
 
 The website is built and deployed in the same workflow because commits pushed
 with `GITHUB_TOKEN` do not trigger another workflow or a separate Pages build.
 Source: [GITHUB_TOKEN behavior](https://docs.github.com/en/actions/concepts/security/github_token).
+
+The workflow first checks that Pages uses **GitHub Actions**, not **Deploy from a
+branch**. A branch deployment copies the saved root files and can replace the
+fresh workflow artifact with old charts. The check performs only a GET request;
+change Settings → Pages → Source yourself. The build job needs `pages: read` for
+this check. A failure stops the workflow with an explicit configuration message.
+
+README chart URLs include the observation timestamp as a cache version. The daily
+snapshot commit includes those URLs; later Pages builds refresh the site without
+another daily commit. GitHub's image proxy may still delay README images; use the
+site and linked metrics JSON to inspect the latest published observation.
+The site requests JSON/SVGs without browser caching and verifies all four chart
+timestamps before updating images and freshness text. A snapshot older than the
+six-hour interval, or mismatched/unavailable charts, is visibly marked stale.
 
 ## Limits
 

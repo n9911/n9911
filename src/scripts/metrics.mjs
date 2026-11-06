@@ -15,9 +15,9 @@ export async function collectMetrics(login, { request = fetch, now = new Date(),
   async function get(endpoint, allowEmpty = false) {
     const url = api + endpoint;
     sources.push(url);
-    const headers = { Accept: 'application/vnd.github+json', 'User-Agent': 'public-profile-metrics' };
+    const headers = { Accept: 'application/vnd.github+json', 'User-Agent': 'public-profile-metrics', 'Cache-Control': 'no-cache' };
     if (token) headers.Authorization = `Bearer ${token}`;
-    const response = await request(url, { method: 'GET', headers, signal: AbortSignal.timeout(30000), redirect: 'error' });
+    const response = await request(url, { method: 'GET', headers, cache: 'no-store', signal: AbortSignal.timeout(30000), redirect: 'error' });
     if (allowEmpty && response.status === 409) return [];
     if (!response.ok) throw new Error(`GitHub GET failed (${response.status}) for ${endpoint.split('?')[0]}`);
     return response.json();
@@ -92,7 +92,7 @@ export function renderPanels(config, metrics) {
   const boxes = [['PUBLIC REPOS', metrics.totals.repositories], ['STARS', metrics.totals.stars], ['OPEN ISSUES + PRS', metrics.totals.openIssuesAndPullRequests], ['COMMITS / 30D', metrics.totals.uniqueCommits30d]];
   const overview = frame('Repository radar', 'Owned public repositories, including forks. This is not personal contribution scoring.', boxes.map(([label, value], i) => `<g transform="translate(${42+i*283} 136)"><rect width="265" height="173" rx="10" fill="${paper}"/><text x="20" y="43" font-size="16">${label}</text><text x="20" y="119" font-size="57" fill="${accent}">${value}</text></g>`).join(''));
   const max = Math.max(1, ...metrics.daily.map(day => day.commits));
-  const activity = frame('Thirty days in orbit', 'Unique commit SHAs on public default branches · UTC · all authors · forks included', metrics.daily.map((day, index) => `<g><rect x="${43+index*37}" y="${315-day.commits/max*180}" width="25" height="${Math.max(2,day.commits/max*180)}" rx="3" fill="${accent}"/><title>${esc(day.day)}: ${day.commits} commits</title>${index%5===0?`<text x="${43+index*37}" y="343" font-size="13">${day.day.slice(5)}</text>`:''}</g>`).join('') + (metrics.totals.uniqueCommits30d===0?'<text x="42" y="153" font-size="19">No commits in this window.</text>':''));
+  const activity = frame('Thirty days in orbit', 'Unique commit SHAs on public default branches · UTC · all authors · forks included', metrics.daily.map((day, index) => `<g><rect x="${43+index*37}" y="${315-day.commits/max*180}" width="25" height="${day.commits/max*180}" rx="3" fill="${accent}"/><title>${esc(day.day)}: ${day.commits} commits</title>${index%5===0?`<text x="${43+index*37}" y="343" font-size="13">${day.day.slice(5)}</text>`:''}</g>`).join('') + (metrics.totals.uniqueCommits30d===0?'<text x="42" y="153" font-size="19">No commits in this window.</text>':''));
   const entries = Object.entries(metrics.languages).sort((a,b)=>b[1]-a[1]);
   const top = entries.slice(0, 5);
   if (entries.length > 5) top.push(['Other', entries.slice(5).reduce((sum,[,n])=>sum+n,0)]);
@@ -103,10 +103,22 @@ export function renderPanels(config, metrics) {
   return { overview, activity, languages, interactions };
 }
 
+export function versionChartImages(markdown, metrics) {
+  return markdown.replace(/(\]\((?:https:\/\/[^\s)]+\/)?src\/assets\/live\/(?:overview|activity|languages|interactions)\.svg)(?:\?[^\s)]*)?\)/g,
+    (_, source) => `${source}?snapshot=${encodeURIComponent(metrics.observedAt)})`);
+}
+
 export async function saveMetrics(root, config, metrics) {
   const output = path.join(root, 'src/assets/live');
   await mkdir(output, { recursive: true });
   for (const [name, svg] of Object.entries(renderPanels(config, metrics))) await writeFile(path.join(output, name+'.svg'), svg+'\n');
+  const readme = path.join(root, 'README.md');
+  try {
+    const previous = await readFile(readme, 'utf8');
+    const next = versionChartImages(previous, metrics);
+    if (next !== previous) await writeFile(readme, next);
+  } catch (error) { if (error.code !== 'ENOENT') throw error; }
+  // Publish the matching observation last; clients verify SVG timestamps against it.
   await writeFile(path.join(output, 'metrics.json'), JSON.stringify(metrics,null,2)+'\n');
 }
 

@@ -1,22 +1,28 @@
 {
   "schemaVersion": 1,
   "login": "n9911",
-  "observedAt": "2026-11-04T23:02:49.663Z",
+  "observedAt": "2026-11-06T15:44:37.803Z",
   "refreshHours": 6,
   "window": {
-    "since": "2026-10-06T00:00:00.000Z",
-    "until": "2026-11-04T23:02:49.663Z",
+    "since": "2026-10-08T00:00:00.000Z",
+    "until": "2026-11-06T15:44:37.803Z",
     "timezone": "UTC"
   },
   "scope": "Owned public repositories including forks; unique default-branch commits by all authors. Language bytes describe repositories, not skill or authorship. Public events are a limited activity feed, not visitor analytics.",
   "totals": {
-    "repositories": 1,
+    "repositories": 2,
     "forks": 0,
     "stars": 0,
     "openIssuesAndPullRequests": 0,
-    "uniqueCommits30d": 2
+    "uniqueCommits30d": 15
   },
   "repositories": [
+    {
+      "name": "locale-check",
+      "url": "https://github.com/n9911/locale-check",
+      "fork": false,
+      "defaultBranch": "main"
+    },
     {
       "name": "n9911",
       "url": "https://github.com/n9911/n9911",
@@ -24,16 +30,14 @@
       "defaultBranch": "main"
     }
   ],
-  "languages": {},
+  "languages": {
+    "JavaScript": 110355,
+    "HTML": 12794,
+    "Shell": 208,
+    "Batchfile": 174,
+    "Makefile": 60
+  },
   "daily": [
-    {
-      "day": "2026-10-06",
-      "commits": 0
-    },
-    {
-      "day": "2026-10-07",
-      "commits": 0
-    },
     {
       "day": "2026-10-08",
       "commits": 0
@@ -124,7 +128,7 @@
     },
     {
       "day": "2026-10-30",
-      "commits": 0
+      "commits": 1
     },
     {
       "day": "2026-10-31",
@@ -132,7 +136,7 @@
     },
     {
       "day": "2026-11-01",
-      "commits": 0
+      "commits": 1
     },
     {
       "day": "2026-11-02",
@@ -144,7 +148,15 @@
     },
     {
       "day": "2026-11-04",
-      "commits": 2
+      "commits": 4
+    },
+    {
+      "day": "2026-11-05",
+      "commits": 0
+    },
+    {
+      "day": "2026-11-06",
+      "commits": 9
     }
   ],
   "publicEvents": {
@@ -156,8 +168,10 @@
   },
   "sources": [
     "https://api.github.com/users/n9911/repos?type=owner&sort=full_name&per_page=100&page=1",
+    "https://api.github.com/repos/n9911/locale-check/languages",
+    "https://api.github.com/repos/n9911/locale-check/commits?sha=main&since=2026-10-08T00:00:00.000Z&until=2026-11-06T15:44:37.803Z&per_page=100&page=1",
     "https://api.github.com/repos/n9911/n9911/languages",
-    "https://api.github.com/repos/n9911/n9911/commits?sha=main&since=2026-10-06T00:00:00.000Z&until=2026-11-04T23:02:49.663Z&per_page=100&page=1",
+    "https://api.github.com/repos/n9911/n9911/commits?sha=main&since=2026-10-08T00:00:00.000Z&until=2026-11-06T15:44:37.803Z&per_page=100&page=1",
     "https://api.github.com/users/n9911/events/public?per_page=100&page=1"
   ]
 }

@@ -1,13 +1,9 @@
 # n9911 daily statistics setup
 
 
-The profile workflow is prepared to save one successful statistics snapshot per
-UTC day. GitHub Actions checks at 00:17, 06:17, 12:17 and 18:17 UTC. Later checks
-retry a failed refresh; they skip collection and the commit after a successful
-snapshot for that day. Manual runs use the same rule.
+The workflow refreshes real statistics and all four charts at every successful run, scheduled every six hours. A same-day marker limits only the daily commit, not data collection. Manual runs refresh too.
 
-Each new day produces fresh GitHub API observations, four SVG charts and a
-`src/assets/live/refresh.json` completion marker. Unchanged counters are valid:
+The first successful UTC-day run creates a daily-commit marker at `src/assets/live/refresh.json`; later runs still publish fresh observations and charts. Unchanged counters are valid:
 the new observation time records a real check, not invented activity. Commits
 are labelled `chore(stats): daily snapshot YYYY-MM-DD [automated]`. The author
 is the profile owner, using the GitHub-provided ID-based noreply address; the
@@ -30,7 +26,7 @@ passed only to Git commit metadata, not saved in the public statistics JSON.
 The build job requests `contents: write` for snapshot commits. The deployment job
 requests `pages: write` and `id-token: write`. The ephemeral `GITHUB_TOKEN` is
 provided by Actions; no personal token or local GCM credentials are required.
-The workflow only stages six explicit files under `src/assets/live`, never uses
+The workflow only stages six explicit files under `src/assets/live` plus `README.md`, never uses
 force push and does not rewrite history. GitHub branch rules or restricted
 permissions may reject the push; the job reports that failure.
 
@@ -63,3 +59,8 @@ Author address format: [GitHub noreply email reference](https://docs.github.com/
 Git operations. `node src/scripts/daily.mjs` reads the public API and writes the
 daily snapshot locally; it does not commit or push. The commit and push commands
 exist only in the reviewed workflow, which Denis enables manually on GitHub.
+
+
+## Chart refresh and Pages source
+
+Set Settings > Pages > Source to GitHub Actions. A branch build can replace fresh charts with saved files. The workflow checks this setting through a read-only API request. See [Daily refresh](DAILY-REFRESH.md) for snapshot verification and cache behavior.

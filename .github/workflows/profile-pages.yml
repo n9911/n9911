@@ -2,7 +2,7 @@ name: Refresh profile and publish Pages
 on:
   push:
     branches: [main]
-    paths: ['src/assets/live/**']
+    paths: ['src/**', 'README.md', 'index.html', '.github/workflows/profile-pages.yml']
   schedule:
     - cron: '17 */6 * * *'
   workflow_dispatch:
@@ -18,6 +18,7 @@ jobs:
     timeout-minutes: 15
     permissions:
       contents: write
+      pages: read
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
@@ -26,7 +27,11 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: '24'
-      - name: Prepare one real statistics snapshot per UTC day
+      - name: Verify Pages uses the workflow artifact
+        run: node src/scripts/daily.mjs --check-pages
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Refresh charts and reserve at most one snapshot commit per UTC day
         id: snapshot
         run: node src/scripts/daily.mjs
         env:
@@ -49,7 +54,7 @@ jobs:
           GIT_COMMITTER_NAME: github-actions[bot]
           GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
         run: |
-          git add -- src/assets/live/metrics.json src/assets/live/overview.svg src/assets/live/activity.svg src/assets/live/languages.svg src/assets/live/interactions.svg src/assets/live/refresh.json
+          git add -- src/assets/live/metrics.json src/assets/live/overview.svg src/assets/live/activity.svg src/assets/live/languages.svg src/assets/live/interactions.svg src/assets/live/refresh.json README.md
           git commit -m "chore(stats): daily snapshot ${SNAPSHOT_DAY} [automated]"
           git push origin "HEAD:${DEFAULT_BRANCH}"
       - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
