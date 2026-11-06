@@ -4,7 +4,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { collectMetrics, saveMetrics } from './metrics.mjs';
 
-export async function refreshDaily(root, { now = new Date(), request = fetch, token = '' } = {}) {
+export async function refreshDaily(root, { now = new Date(), request = fetch, token = '', committer = 'github-actions[bot]' } = {}) {
   const observedAt = new Date(now);
   if (!Number.isFinite(observedAt.getTime())) throw new Error('Invalid snapshot time');
   const day = observedAt.toISOString().slice(0, 10);
@@ -27,7 +27,7 @@ export async function refreshDaily(root, { now = new Date(), request = fetch, to
   metrics.automation = {
     kind: 'daily-statistics-snapshot',
     author: config.login,
-    committer: 'github-actions[bot]',
+    committer,
     note: 'Repository history includes automated statistics updates; this is not personal contribution scoring.'
   };
   await saveMetrics(root, config, metrics);

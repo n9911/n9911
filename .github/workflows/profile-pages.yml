@@ -1,5 +1,8 @@
 name: Refresh profile and publish Pages
 on:
+  push:
+    branches: [main]
+    paths: ['src/assets/live/**']
   schedule:
     - cron: '17 */6 * * *'
   workflow_dispatch:

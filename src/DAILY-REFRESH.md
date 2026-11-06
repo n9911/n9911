@@ -61,4 +61,14 @@ Author address format: [GitHub noreply email reference](https://docs.github.com/
 `node src/scripts/build.mjs` builds a preview from existing saved data without
 Git operations. `node src/scripts/daily.mjs` reads the public API and writes the
 daily snapshot locally; it does not commit or push. The commit and push commands
-exist only in the reviewed workflow, which Denis enables manually on GitHub.
+are prepared in the reviewed workflow and the separate local management build,
+which Denis runs himself.
+
+The management workspace also provides `node build/gen-commit/run.mjs` for all
+six local clones, with an explicit `--push` option for Denis's own full-cycle run.
+Local snapshot commits use the profile owner as both author and committer;
+the `[automated]` label remains. The local build and Actions share the same UTC
+daily marker. Pushing a local snapshot to main triggers this Pages workflow via
+changes to `src/assets/live/**`; an existing daily snapshot is deployed without
+another snapshot commit. The management build is not included in this profile
+export. See its `build/README.md` for credentials, reports and recovery details.
