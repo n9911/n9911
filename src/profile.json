@@ -3,7 +3,7 @@
   "name": "Nori",
   "world": "Signal Relay",
   "pagesUrl": "https://n9911.github.io/n9911/",
-  "refreshHours": 6,
+  "refreshHours": 24,
   "palette": {
     "background": "#071829",
     "ink": "#e5f7ff",

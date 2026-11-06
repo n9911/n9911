@@ -5,8 +5,10 @@ async function showFreshness() {
     if (!response.ok) throw new Error('No published snapshot');
     const data = await response.json();
     const date = new Date(data.observedAt);
-    const old = Date.now() - date.getTime() > 12 * 3600000;
-    status.textContent = `GitHub data: ${date.toLocaleString()} · ${old ? 'snapshot is over 12 hours old' : 'refresh schedule: every 6 hours'}`;
+    if (!Number.isFinite(date.getTime())) throw new Error('Invalid snapshot time');
+    const interval = Number(data.refreshHours) || 24;
+    const old = Date.now() - date.getTime() > interval * 2 * 3600000;
+    status.textContent = `GitHub data: ${date.toLocaleString()} · ${old ? 'snapshot is overdue' : `snapshot interval: ${interval} hours`}${data.automation ? ' · automated statistics snapshot' : ''}`;
     status.dataset.stale = String(old);
     for (const image of document.querySelectorAll('img[data-live]')) {
       const url = new URL(image.getAttribute('src'), location.href);

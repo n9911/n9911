@@ -1,0 +1,58 @@
+name: Refresh profile and publish Pages
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: profile-pages
+  cancel-in-progress: false
+jobs:
+  build:
+    if: github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: true
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
+      - name: Prepare one real statistics snapshot per UTC day
+        id: snapshot
+        run: node src/scripts/daily.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Build website
+        run: node src/scripts/build.mjs
+      - name: Commit and push the daily statistics snapshot
+        if: steps.snapshot.outputs.updated == 'true'
+        env:
+          SNAPSHOT_DAY: ${{ steps.snapshot.outputs.snapshot_day }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          git add -- src/assets/live/metrics.json src/assets/live/overview.svg src/assets/live/activity.svg src/assets/live/languages.svg src/assets/live/interactions.svg src/assets/live/refresh.json
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m "chore(stats): daily snapshot ${SNAPSHOT_DAY} [automated]"
+          git push origin "HEAD:${DEFAULT_BRANCH}"
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        with:
+          path: _site
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish Pages artifact
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
