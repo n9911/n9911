@@ -41,21 +41,42 @@ export async function refreshDaily(root, { now = new Date(), request = fetch, to
 
 export async function verifyPagesSource(repository, {request = fetch, token = ''} = {}) {
   if (!/^[a-z\d-]+\/[a-z\d_.-]+$/i.test(repository ?? '')) throw new Error('Invalid profile repository');
+  const settings = `https://github.com/${repository}/settings/pages`;
+  const fix = `Open ${settings} and set Build and deployment > Source to GitHub Actions, then run this workflow again. No remote setting was changed.`;
   const headers = {Accept:'application/vnd.github+json', 'User-Agent':'profile-pages-check'};
   if (token) headers.Authorization = `Bearer ${token}`;
-  const response = await request(`https://api.github.com/repos/${repository}/pages`,
-    {method:'GET', headers, cache:'no-store', redirect:'error', signal:AbortSignal.timeout(30000)});
-  if (!response.ok) throw new Error(`Cannot verify Pages source (${response.status}). Enable Settings > Pages > Source: GitHub Actions and allow pages: read.`);
+  let response;
+  try {
+    response = await request(`https://api.github.com/repos/${repository}/pages`,
+      {method:'GET', headers, cache:'no-store', redirect:'error', signal:AbortSignal.timeout(30000)});
+  } catch {
+    throw new Error(`Cannot verify Pages source: GitHub API request failed. Retry after checking GitHub availability. Settings: ${settings}`);
+  }
+  if (!response.ok) {
+    const reason = response.status === 404 ? 'Pages is not configured or the workflow token cannot see its settings.'
+      : response.status === 401 || response.status === 403 ? 'The workflow token cannot read Pages settings; check pages: read and repository Actions permissions.'
+      : 'GitHub Pages API is unavailable; retry after checking GitHub availability.';
+    throw new Error(`Cannot verify Pages source (${response.status}). ${reason} ${fix}`);
+  }
   if ((await response.json()).build_type !== 'workflow') {
-    throw new Error('Pages uses a branch build that can overwrite fresh charts. Set Settings > Pages > Source to GitHub Actions. No setting was changed automatically.');
+    throw new Error(`Pages is not using the workflow artifact. A branch build can overwrite fresh charts. ${fix}`);
   }
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
   const root = fileURLToPath(new URL('../../', import.meta.url));
   if (process.argv.includes('--check-pages')) {
-    await verifyPagesSource(process.env.GITHUB_REPOSITORY, {token:process.env.GITHUB_TOKEN ?? ''});
-    console.log('Pages source verified: GitHub Actions.');
+    try {
+      await verifyPagesSource(process.env.GITHUB_REPOSITORY, {token:process.env.GITHUB_TOKEN ?? ''});
+      console.log('Pages source verified: GitHub Actions.');
+    } catch (error) {
+      const message = error.message;
+      const escaped = message.replaceAll('%', '%25').replaceAll('\r', '%0D').replaceAll('\n', '%0A');
+      console.error(`::error title=GitHub Pages configuration::${escaped}`);
+      if (process.env.GITHUB_STEP_SUMMARY) await appendFile(process.env.GITHUB_STEP_SUMMARY,
+        `## GitHub Pages setup required\n\n${message}\n\nThe build stopped before statistics, commits or deployment.\n`);
+      process.exitCode = 1;
+    }
   } else {
   const result = await refreshDaily(root, { token: process.env.GITHUB_TOKEN ?? '' });
   if (process.env.GITHUB_OUTPUT) await appendFile(process.env.GITHUB_OUTPUT,
