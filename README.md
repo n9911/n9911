@@ -59,13 +59,13 @@ A synthetic comparison example: the wording changes while the key and placeholde
 
 ## Code and activity
 
-![Public repository totals](https://n9911.github.io/n9911/src/assets/live/overview.svg?snapshot=2026-11-12T01%3A31%3A53.412Z)
+![Public repository totals](https://n9911.github.io/n9911/src/assets/live/overview.svg?snapshot=2026-11-13T01%3A27%3A01.164Z)
 
-![Public default-branch history, all authors](https://n9911.github.io/n9911/src/assets/live/activity.svg?snapshot=2026-11-12T01%3A31%3A53.412Z)
+![Public default-branch history, all authors](https://n9911.github.io/n9911/src/assets/live/activity.svg?snapshot=2026-11-13T01%3A27%3A01.164Z)
 
-![Public repository language bytes](https://n9911.github.io/n9911/src/assets/live/languages.svg?snapshot=2026-11-12T01%3A31%3A53.412Z)
+![Public repository language bytes](https://n9911.github.io/n9911/src/assets/live/languages.svg?snapshot=2026-11-13T01%3A27%3A01.164Z)
 
-![Limited public account interactions](https://n9911.github.io/n9911/src/assets/live/interactions.svg?snapshot=2026-11-12T01%3A31%3A53.412Z)
+![Limited public account interactions](https://n9911.github.io/n9911/src/assets/live/interactions.svg?snapshot=2026-11-13T01%3A27%3A01.164Z)
 
 These charts refresh from real GitHub observations on every successful workflow run, scheduled every six hours. At most one daily snapshot is committed; later runs still rebuild and publish the charts. Snapshot commits are labelled automated and authored by the profile owner using a verified GitHub noreply identity, with github-actions[bot] as committer. Owner contribution attribution follows GitHub rules; repository charts still include all authors. The observation time is printed on every chart. Commits are unique default-branch SHAs across all authors and owned public repositories, including forks. Language bytes describe repositories, not personal skill. Public interactions are a limited event feed (up to 300 events / 30 days), not visitor analytics. API and image caches may delay updates.
 
